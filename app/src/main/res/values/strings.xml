@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Rick and Morty Hub</string>
+    <string name="logo_description">Rick and Morty logo</string>
+    <string name="characters">Characters</string>
+    <string name="locations">Locations</string>
+    <string name="episodes">Episodes</string>
+    <string name="character_image">Character image</string>
+    <string name="ok">OK</string>
+</resources>
