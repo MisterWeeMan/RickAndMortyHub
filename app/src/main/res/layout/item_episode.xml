@@ -9,12 +9,13 @@
     android:layout_margin="10dp"
     android:elevation="5dp"
 
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="10dp"
+
+    tools:ignore="UnusedAttribute">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_episode_name"
@@ -35,13 +36,13 @@
             android:id="@+id/tv_episode_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:gravity="center"
+            android:textSize="15sp"
 
-            app:layout_constraintTop_toBottomOf="@id/tv_episode_name"
+            app:layout_constraintBottom_toTopOf="@id/tv_episode_character_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_episode_character_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_episode_name"
 
             tools:text="S01E04" />
 
@@ -49,18 +50,16 @@
             android:id="@+id/tv_episode_character_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:gravity="center"
+            android:textSize="15sp"
 
-            app:layout_constraintTop_toBottomOf="@id/tv_episode_number"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_episode_number"
 
             tools:text="13" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>

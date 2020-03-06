@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!-- TODO("hardcoded stuff") -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,12 +9,13 @@
     android:layout_margin="@dimen/character_card_margin"
     android:elevation="@dimen/character_card_elevation"
 
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="10dp"
+
+    tools:ignore="UnusedAttribute">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_character_name"
@@ -100,8 +101,6 @@
 
             tools:text="Earth (Replacement Dimension)" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>
