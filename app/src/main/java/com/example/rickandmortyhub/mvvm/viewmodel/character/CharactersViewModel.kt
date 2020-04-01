@@ -6,15 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.rickandmortyhub.mvvm.model.CharacterModel
+import com.example.rickandmortyhub.mvvm.model.RickAndMortyRepositoryInterface
 import com.example.rickandmortyhub.mvvm.paging.CharacterDataSourceFactory
 import com.example.rickandmortyhub.network.RetrofitFactory
 import com.example.rickandmortyhub.network.model.character.Character
 import io.reactivex.disposables.CompositeDisposable
 
-class CharactersViewModel : ViewModel() {
+class CharactersViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    private val characterModel = CharacterModel()
 
     val characterList: LiveData<PagedList<Character>>
 
@@ -31,24 +31,8 @@ class CharactersViewModel : ViewModel() {
             .setEnablePlaceholders(false)
             .setMaxSize(493)
             .build()
-        characterList = LivePagedListBuilder<Int, Character>(characterDataSourceFactory, config).build()
+        characterList = LivePagedListBuilder(characterDataSourceFactory, config).build()
     }
-
-//    fun getCharacters() {
-//        compositeDisposable.add(
-//            characterModel
-//                .downloadCharacters()
-//                .map { info -> info.characters }
-//                .subscribe(
-//                    { item ->
-//                        mutableCharacterList.value = item
-//                    },
-//                    { error ->
-//                        mutableErrorMessage.value = error.message
-//                    }
-//                )
-//        )
-//    }
 
     override fun onCleared() {
         compositeDisposable.clear()
