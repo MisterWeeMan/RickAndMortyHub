@@ -15,28 +15,20 @@ import retrofit2.http.Query
 interface RickMortyClient {
 
     @GET(CHARACTER_ENDPOINT)
-    fun getCharacters(
-        @Query("page") page: Int = 1
-    ): Single<CharactersInfo>
+    suspend fun getCharacters(@Query("page") page: Int = 1): CharactersInfo
 
     @GET(SINGLE_CHARACTER_ENDPOINT)
-    fun getSingleCharacter(
-        @Path("characterId") id: Int
-    ): Single<Character>
+    suspend fun getSingleCharacter(@Path("characterId") id: Int): Character
 
     @GET(LOCATION_ENDPOINT)
-    fun getLocations(): Single<LocationsInfo>
+    suspend fun getLocations(): LocationsInfo
 
     @GET(SINGLE_LOCATION_ENDPOINT)
-    fun getSingleLocation(
-        @Path("locationId") id: Int
-    ): Single<Location>
+    suspend fun getSingleLocation(@Path("locationId") id: Int): Location
 
     @GET(EPISODE_ENDPOINT)
-    fun getEpisodes(): Single<EpisodesInfo>
+    suspend fun getEpisodes(): EpisodesInfo
 
     @GET(SINGLE_EPISODE_ENDPOINT)
-    fun getSingleEpisode(
-        @Path("episodeId") id: Int
-    ): Single<Episode>
+    suspend fun getSingleEpisode(@Path("episodeId") id: Int): Episode
 }

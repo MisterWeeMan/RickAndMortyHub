@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModel
+import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModelFactory
+import com.example.rickandmortyhub.network.RetrofitFactory
+import com.example.rickandmortyhub.repositories.RickMortyRemoteRepositoryImpl
 import kotlinx.android.synthetic.main.activity_characters.*
 
 class CharactersActivity : AppCompatActivity() {
@@ -18,7 +21,9 @@ class CharactersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
 
-        viewModel = ViewModelProvider(this).get(CharactersViewModel::class.java)
+        val repository = RickMortyRemoteRepositoryImpl(RetrofitFactory.rickMortyClient)
+        val viewModelFactory = CharactersViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(CharactersViewModel::class.java)
 
         initObservableData()
         viewModel.getCharacters()

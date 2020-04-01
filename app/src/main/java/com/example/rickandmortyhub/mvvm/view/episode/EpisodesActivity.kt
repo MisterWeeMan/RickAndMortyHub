@@ -1,13 +1,16 @@
 package com.example.rickandmortyhub.mvvm.view.episode
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModel
+import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModelFactory
+import com.example.rickandmortyhub.network.RetrofitFactory
+import com.example.rickandmortyhub.repositories.RickMortyRemoteRepositoryImpl
 import kotlinx.android.synthetic.main.activity_episode.*
 
 class EpisodesActivity : AppCompatActivity() {
@@ -18,14 +21,21 @@ class EpisodesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episode)
 
-        viewModel = ViewModelProvider(this).get(EpisodesViewModel::class.java)
+        val repository = RickMortyRemoteRepositoryImpl(RetrofitFactory.rickMortyClient)
+        val viewModelFactory = EpisodesViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(EpisodesViewModel::class.java)
 
+        initObservableData()
+        viewModel.getEpisodes()
+    }
+
+    private fun initObservableData() {
         viewModel.apply {
-            getEpisodes()
-
             episodeList.observe(this@EpisodesActivity, Observer { episodeList ->
-                rv_episodes.adapter = EpisodesAdapter(episodeList)
-                rv_episodes.layoutManager = LinearLayoutManager(this@EpisodesActivity)
+                rv_episodes.apply {
+                    adapter = EpisodesAdapter(episodeList)
+                    layoutManager = LinearLayoutManager(this@EpisodesActivity)
+                }
             })
 
             errorMessage.observe(this@EpisodesActivity, Observer { error ->
@@ -35,6 +45,10 @@ class EpisodesActivity : AppCompatActivity() {
     }
 
     private fun showError(error: String?) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+        AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setMessage(error)
+            .setPositiveButton(getString(R.string.ok), null)
+            .show()
     }
 }

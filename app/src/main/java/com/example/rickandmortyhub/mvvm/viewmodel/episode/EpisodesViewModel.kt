@@ -3,41 +3,30 @@ package com.example.rickandmortyhub.mvvm.viewmodel.episode
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.rickandmortyhub.mvvm.model.EpisodeModel
+import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.network.model.episode.Episode
-import io.reactivex.disposables.CompositeDisposable
+import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import kotlinx.coroutines.launch
 
-class EpisodesViewModel: ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
-    private val episodeModel = EpisodeModel()
+class EpisodesViewModel(
+    private val repository: RickMortyRemoteRepository
+): ViewModel() {
 
     val episodeList: LiveData<List<Episode>>
-        get() = mutableEpisodeList
-    private val mutableEpisodeList = MutableLiveData<List<Episode>>()
+        get() = mEpisodeList
+    private val mEpisodeList = MutableLiveData<List<Episode>>()
 
     val errorMessage: LiveData<String>
-        get() = mutableErrorMessage
-    private val mutableErrorMessage = MutableLiveData<String>()
+        get() = mErrorMessage
+    private val mErrorMessage = MutableLiveData<String>()
 
     fun getEpisodes() {
-        compositeDisposable.add(
-            episodeModel
-                .downloadEpisodes()
-                .map { info -> info.episodes }
-                .subscribe(
-                    { list ->
-                        mutableEpisodeList.value = list
-                    },
-                    { error ->
-                        mutableErrorMessage.value = error.message
-                    }
-                )
-        )
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
+        viewModelScope.launch {
+            try {
+                mEpisodeList.value = repository.downloadEpisodes()
+            } catch (exc: Exception) {
+                mErrorMessage.value = exc.message
+            }
+        }
     }
 }

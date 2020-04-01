@@ -3,14 +3,14 @@ package com.example.rickandmortyhub.mvvm.viewmodel.character
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.rickandmortyhub.mvvm.model.CharacterModel
+import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.network.model.character.Character
-import io.reactivex.disposables.CompositeDisposable
+import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import kotlinx.coroutines.launch
 
-class CharactersViewModel: ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
-    private val characterModel = CharacterModel()
+class CharactersViewModel(
+    private val repository: RickMortyRemoteRepository
+): ViewModel() {
 
     val characterList: LiveData<List<Character>>
         get() = mCharacterList
@@ -21,19 +21,12 @@ class CharactersViewModel: ViewModel() {
     private var mErrorMessage = MutableLiveData<String>()
 
     fun getCharacters() {
-        compositeDisposable.add(
-            characterModel
-                .downloadCharacters()
-                .map { it.characters }
-                .subscribe(
-                    { list -> mCharacterList.value = list },
-                    { error -> mErrorMessage.value = error.message }
-                )
-        )
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
+        viewModelScope.launch {
+            try {
+                mCharacterList.value = repository.downloadCharacters()
+            } catch (exc: Exception) {
+                mErrorMessage.value = exc.message
+            }
+        }
     }
 }

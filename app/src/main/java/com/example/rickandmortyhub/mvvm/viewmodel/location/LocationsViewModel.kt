@@ -3,41 +3,30 @@ package com.example.rickandmortyhub.mvvm.viewmodel.location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.rickandmortyhub.mvvm.model.LocationModel
+import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.network.model.location.Location
-import io.reactivex.disposables.CompositeDisposable
+import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import kotlinx.coroutines.launch
 
-class LocationsViewModel: ViewModel() {
+class LocationsViewModel(
+    private val repository: RickMortyRemoteRepository
+): ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
-    private val locationModel = LocationModel()
-
-    private val mutableLocationList = MutableLiveData<List<Location>>()
     val locationList: LiveData<List<Location>>
-        get() = mutableLocationList
+        get() = mLocationList
+    private val mLocationList = MutableLiveData<List<Location>>()
 
-    private val mutableErrorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
-        get() = mutableErrorMessage
+        get() = mErrorMessage
+    private val mErrorMessage = MutableLiveData<String>()
 
     fun getLocations() {
-        compositeDisposable.add(
-            locationModel
-                .downloadLocation()
-                .map { info -> info.locations }
-                .subscribe(
-                    { item ->
-                        mutableLocationList.value = item
-                    },
-                    { error ->
-                        mutableErrorMessage.value = error.message
-                    }
-                )
-        )
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
+        viewModelScope.launch {
+            try {
+                mLocationList.value = repository.downloadLocations()
+            } catch (exc: Exception) {
+                mErrorMessage.value = exc.message
+            }
+        }
     }
 }
