@@ -13,35 +13,29 @@ import kotlinx.android.synthetic.main.activity_characters.*
 class CharactersActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CharactersViewModel
-    private lateinit var charactersAdapter: CharactersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
 
         viewModel = ViewModelProvider(this).get(CharactersViewModel::class.java)
-        charactersAdapter = CharactersAdapter()
 
-        initRecyclerView()
         initObservableData()
+        viewModel.getCharacters()
     }
 
     private fun initObservableData() {
         viewModel.apply {
             characterList.observe(this@CharactersActivity, Observer { characterList ->
-                charactersAdapter.submitList(characterList)
+                rv_characters.apply {
+                    adapter = CharactersAdapter(characterList)
+                    layoutManager = LinearLayoutManager(this@CharactersActivity)
+                }
             })
 
             errorMessage.observe(this@CharactersActivity, Observer { error ->
                 showError(error)
             })
-        }
-    }
-
-    private fun initRecyclerView() {
-        rv_characters.apply {
-            adapter = charactersAdapter
-            layoutManager = LinearLayoutManager(this@CharactersActivity)
         }
     }
 
