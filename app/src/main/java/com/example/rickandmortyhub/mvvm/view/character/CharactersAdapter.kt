@@ -39,7 +39,7 @@ class CharactersAdapter(
                 tv_character_status.text = currentCharacter?.status
                 tv_character_species.text = currentCharacter?.species
                 tv_character_origin.text = currentCharacter?.origin?.name
-                tv_character_location.text = currentCharacter?.location?.name
+                tv_character_location.text = currentCharacter?.characterLocation?.name
 
                 Picasso
                     .get()

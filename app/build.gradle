@@ -65,4 +65,13 @@ dependencies {
 
     // Material design
     implementation "com.google.android.material:material:$material_version"
+
+    // MockK
+    testImplementation "io.mockk:mockk:$mockk_version"
+
+    // Test rule for LiveData
+    testImplementation "androidx.arch.core:core-testing:$livedata_rule_version"
+
+    // Test coroutines
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
 }

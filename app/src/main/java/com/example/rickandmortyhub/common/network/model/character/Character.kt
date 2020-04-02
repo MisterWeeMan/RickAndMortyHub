@@ -11,7 +11,7 @@ data class Character(
     @SerializedName("type") val type: String,
     @SerializedName("gender") val gender: String,
     @SerializedName("origin") val origin: Origin,
-    @SerializedName("location") val location: Location,
+    @SerializedName("location") val characterLocation: CharacterLocation,
     @SerializedName("image") val image: String,
     @SerializedName("episode") val episode: List<String>,
     @SerializedName("url") val url: String,
