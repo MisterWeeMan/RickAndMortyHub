@@ -1,22 +1,21 @@
 package com.example.rickandmortyhub.dagger.modules
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.rickandmortyhub.dagger.scopes.CharactersActivityScope
-import com.example.rickandmortyhub.mvvm.view.character.CharactersActivity
+import com.example.rickandmortyhub.dagger.scopes.CharactersFragmentScope
+import com.example.rickandmortyhub.mvvm.view.character.CharactersFragment
 import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModel
 import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModelFactory
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
 class CharactersViewModelModule(
-    private val activity: CharactersActivity
+    private val fragment: CharactersFragment
 ) {
 
     @Provides
-    @CharactersActivityScope
+    @CharactersFragmentScope
     fun provideCharactersViewModel(viewModelFactory: CharactersViewModelFactory): CharactersViewModel {
-        return ViewModelProvider(activity, viewModelFactory).get(CharactersViewModel::class.java)
+        return ViewModelProvider(fragment, viewModelFactory).get(CharactersViewModel::class.java)
     }
 }

@@ -1,8 +1,8 @@
 package com.example.rickandmortyhub.dagger.modules
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.rickandmortyhub.dagger.scopes.EpisodesActivityScope
-import com.example.rickandmortyhub.mvvm.view.episode.EpisodesActivity
+import com.example.rickandmortyhub.dagger.scopes.EpisodesFragmentScope
+import com.example.rickandmortyhub.mvvm.view.episode.EpisodesFragment
 import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModel
 import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModelFactory
 import dagger.Module
@@ -10,12 +10,12 @@ import dagger.Provides
 
 @Module
 class EpisodesViewModelModule(
-    private val activity: EpisodesActivity
+    private val fragment: EpisodesFragment
 ) {
 
     @Provides
-    @EpisodesActivityScope
+    @EpisodesFragmentScope
     fun provideEpisodesViewModel(viewModelFactory: EpisodesViewModelFactory): EpisodesViewModel {
-        return ViewModelProvider(activity, viewModelFactory).get(EpisodesViewModel::class.java)
+        return ViewModelProvider(fragment, viewModelFactory).get(EpisodesViewModel::class.java)
     }
 }

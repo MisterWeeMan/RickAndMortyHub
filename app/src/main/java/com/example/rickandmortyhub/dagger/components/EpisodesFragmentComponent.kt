@@ -1,13 +1,13 @@
 package com.example.rickandmortyhub.dagger.components
 
 import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule
-import com.example.rickandmortyhub.dagger.scopes.EpisodesActivityScope
-import com.example.rickandmortyhub.mvvm.view.episode.EpisodesActivity
+import com.example.rickandmortyhub.dagger.scopes.EpisodesFragmentScope
+import com.example.rickandmortyhub.mvvm.view.episode.EpisodesFragment
 import dagger.Component
 
-@EpisodesActivityScope
+@EpisodesFragmentScope
 @Component(modules = [EpisodesViewModelModule::class], dependencies = [ApplicationComponent::class])
-interface EpisodesActivityComponent {
+interface EpisodesFragmentComponent {
 
-    fun inject(episodesActivity: EpisodesActivity)
+    fun inject(fragment: EpisodesFragment)
 }
