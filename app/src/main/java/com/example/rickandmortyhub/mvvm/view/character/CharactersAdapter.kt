@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyhub.R
-import com.example.rickandmortyhub.network.model.character.Character
+import com.example.rickandmortyhub.common.network.model.character.Character
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_character.view.*
 

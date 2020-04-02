@@ -1,7 +1,7 @@
-package com.example.rickandmortyhub.network.model.character
+package com.example.rickandmortyhub.common.network.model.character
 
 
-import com.example.rickandmortyhub.network.model.Info
+import com.example.rickandmortyhub.common.network.model.Info
 import com.google.gson.annotations.SerializedName
 
 data class CharactersInfo(

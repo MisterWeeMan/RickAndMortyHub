@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmortyhub.network.model.location.Location
+import com.example.rickandmortyhub.common.network.model.location.Location
 import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
 import kotlinx.coroutines.launch
 

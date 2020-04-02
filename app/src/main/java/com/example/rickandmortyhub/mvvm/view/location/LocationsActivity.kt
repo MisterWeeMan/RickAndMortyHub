@@ -4,29 +4,35 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
+import com.example.rickandmortyhub.RickMortyApplication
 import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModel
-import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModelFactory
-import com.example.rickandmortyhub.network.RetrofitFactory
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepositoryImpl
+import com.example.rickandmortyhub.dagger.components.DaggerLocationsActivityComponent
+import com.example.rickandmortyhub.dagger.modules.LocationsViewModelModule
 import kotlinx.android.synthetic.main.activity_locations.*
+import javax.inject.Inject
 
 class LocationsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: LocationsViewModel
+    @Inject
+    lateinit var viewModel: LocationsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_locations)
 
-        val repository = RickMortyRemoteRepositoryImpl(RetrofitFactory.rickMortyClient)
-        val viewModelFactory = LocationsViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(LocationsViewModel::class.java)
-
+        initDagger()
         initObservableData()
         viewModel.getLocations()
+    }
+
+    private fun initDagger() {
+        DaggerLocationsActivityComponent.builder()
+            .applicationComponent((application as RickMortyApplication).applicationComponent)
+            .locationsViewModelModule(LocationsViewModelModule(this))
+            .build()
+            .inject(this)
     }
 
     private fun initObservableData() {

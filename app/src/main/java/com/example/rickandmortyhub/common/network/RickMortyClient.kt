@@ -1,13 +1,12 @@
-package com.example.rickandmortyhub.network
+package com.example.rickandmortyhub.common.network
 
 import com.example.rickandmortyhub.common.*
-import com.example.rickandmortyhub.network.model.character.Character
-import com.example.rickandmortyhub.network.model.character.CharactersInfo
-import com.example.rickandmortyhub.network.model.episode.Episode
-import com.example.rickandmortyhub.network.model.episode.EpisodesInfo
-import com.example.rickandmortyhub.network.model.location.Location
-import com.example.rickandmortyhub.network.model.location.LocationsInfo
-import io.reactivex.Single
+import com.example.rickandmortyhub.common.network.model.character.Character
+import com.example.rickandmortyhub.common.network.model.character.CharactersInfo
+import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.network.model.episode.EpisodesInfo
+import com.example.rickandmortyhub.common.network.model.location.Location
+import com.example.rickandmortyhub.common.network.model.location.LocationsInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

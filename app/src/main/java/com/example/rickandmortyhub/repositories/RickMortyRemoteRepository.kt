@@ -1,8 +1,8 @@
 package com.example.rickandmortyhub.repositories
 
-import com.example.rickandmortyhub.network.model.character.Character
-import com.example.rickandmortyhub.network.model.episode.Episode
-import com.example.rickandmortyhub.network.model.location.Location
+import com.example.rickandmortyhub.common.network.model.character.Character
+import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.network.model.location.Location
 
 interface RickMortyRemoteRepository {
 

@@ -4,29 +4,35 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
+import com.example.rickandmortyhub.RickMortyApplication
+import com.example.rickandmortyhub.dagger.components.DaggerEpisodesActivityComponent
+import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule
 import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModel
-import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModelFactory
-import com.example.rickandmortyhub.network.RetrofitFactory
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepositoryImpl
 import kotlinx.android.synthetic.main.activity_episode.*
+import javax.inject.Inject
 
 class EpisodesActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: EpisodesViewModel
+    @Inject
+    lateinit var viewModel: EpisodesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episode)
 
-        val repository = RickMortyRemoteRepositoryImpl(RetrofitFactory.rickMortyClient)
-        val viewModelFactory = EpisodesViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(EpisodesViewModel::class.java)
-
+        initDagger()
         initObservableData()
         viewModel.getEpisodes()
+    }
+
+    private fun initDagger() {
+        DaggerEpisodesActivityComponent.builder()
+            .applicationComponent((application as RickMortyApplication).applicationComponent)
+            .episodesViewModelModule(EpisodesViewModelModule(this))
+            .build()
+            .inject(this)
     }
 
     private fun initObservableData() {
