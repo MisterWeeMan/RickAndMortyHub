@@ -2,7 +2,7 @@ package com.example.rickandmortyhub.dagger.components
 
 import com.example.rickandmortyhub.dagger.modules.LocationsViewModelModule
 import com.example.rickandmortyhub.dagger.scopes.LocationsFragmentScope
-import com.example.rickandmortyhub.mvvm.view.location.LocationsFragment
+import com.example.rickandmortyhub.views.location.LocationsFragment
 import dagger.Component
 
 @LocationsFragmentScope

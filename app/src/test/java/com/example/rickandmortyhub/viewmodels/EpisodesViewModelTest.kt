@@ -3,8 +3,8 @@ package com.example.rickandmortyhub.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.rickandmortyhub.common.network.model.episode.Episode
-import com.example.rickandmortyhub.mvvm.viewmodel.episode.EpisodesViewModel
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import com.example.rickandmortyhub.viewmodels.episode.EpisodesViewModel
+import com.example.rickandmortyhub.repositories.RemoteRepository
 import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
 import com.example.rickandmortyhub.viewmodels.utils.episodeMock
 import io.mockk.MockKAnnotations
@@ -30,7 +30,7 @@ class EpisodesViewModelTest {
     val coroutinesRule = MainCoroutinesRule()
 
     @MockK
-    private lateinit var repository: RickMortyRemoteRepository
+    private lateinit var repository: RemoteRepository
 
     @SpyK
     var episodeListObserver = Observer<List<Episode>> {  }

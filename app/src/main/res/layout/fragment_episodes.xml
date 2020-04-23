@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvvm.view.character.CharactersFragment">
+    tools:context=".views.character.CharactersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_episodes_frag"

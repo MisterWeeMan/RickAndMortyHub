@@ -3,8 +3,8 @@ package com.example.rickandmortyhub.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.rickandmortyhub.common.network.model.location.Location
-import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModel
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import com.example.rickandmortyhub.viewmodels.location.LocationsViewModel
+import com.example.rickandmortyhub.repositories.RemoteRepository
 import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
 import com.example.rickandmortyhub.viewmodels.utils.locationMock
 import io.mockk.MockKAnnotations
@@ -30,7 +30,7 @@ class LocationsViewModelTest {
     val coroutinesRule = MainCoroutinesRule()
 
     @MockK
-    private lateinit var repository: RickMortyRemoteRepository
+    private lateinit var repository: RemoteRepository
 
     @SpyK
     var locationListObserver = Observer<List<Location>> {  }

@@ -1,15 +1,15 @@
-package com.example.rickandmortyhub.mvvm.viewmodel.location
+package com.example.rickandmortyhub.viewmodels.location
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.common.network.model.location.Location
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import com.example.rickandmortyhub.repositories.RemoteRepository
 import kotlinx.coroutines.launch
 
 class LocationsViewModel(
-    private val repository: RickMortyRemoteRepository
+    private val repository: RemoteRepository
 ): ViewModel() {
 
     val locationList: LiveData<List<Location>>

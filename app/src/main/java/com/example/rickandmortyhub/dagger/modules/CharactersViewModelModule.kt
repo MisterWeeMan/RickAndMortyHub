@@ -2,9 +2,9 @@ package com.example.rickandmortyhub.dagger.modules
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.rickandmortyhub.dagger.scopes.CharactersFragmentScope
-import com.example.rickandmortyhub.mvvm.view.character.CharactersFragment
-import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModel
-import com.example.rickandmortyhub.mvvm.viewmodel.character.CharactersViewModelFactory
+import com.example.rickandmortyhub.views.character.CharactersFragment
+import com.example.rickandmortyhub.viewmodels.character.CharactersViewModel
+import com.example.rickandmortyhub.viewmodels.character.CharactersViewModelFactory
 import dagger.Module
 import dagger.Provides
 

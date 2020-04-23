@@ -1,7 +1,7 @@
 package com.example.rickandmortyhub.dagger.modules
 
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepositoryImpl
+import com.example.rickandmortyhub.repositories.RemoteRepository
+import com.example.rickandmortyhub.repositories.RemoteRepositoryImpl
 import dagger.Binds
 import dagger.Module
 
@@ -9,5 +9,5 @@ import dagger.Module
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindRepository(remoteRepository: RickMortyRemoteRepositoryImpl): RickMortyRemoteRepository
+    abstract fun bindRepository(remoteRepository: RemoteRepositoryImpl): RemoteRepository
 }

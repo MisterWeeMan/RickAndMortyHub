@@ -1,4 +1,4 @@
-package com.example.rickandmortyhub.mvvm.view.location
+package com.example.rickandmortyhub.views.episode
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.RickMortyApplication
-import com.example.rickandmortyhub.dagger.components.DaggerLocationsFragmentComponent
-import com.example.rickandmortyhub.dagger.modules.LocationsViewModelModule
-import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModel
-import kotlinx.android.synthetic.main.fragment_locations.*
+import com.example.rickandmortyhub.dagger.components.DaggerEpisodesFragmentComponent
+import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule
+import com.example.rickandmortyhub.viewmodels.episode.EpisodesViewModel
+import kotlinx.android.synthetic.main.fragment_episodes.*
 import javax.inject.Inject
 
-class LocationsFragment: Fragment() {
+class EpisodesFragment: Fragment() {
 
     @Inject
-    lateinit var viewModel: LocationsViewModel
+    lateinit var viewModel: EpisodesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,33 +29,33 @@ class LocationsFragment: Fragment() {
         initDagger()
         initObservableData()
 
-        return inflater.inflate(R.layout.fragment_locations, container, false)
+        return inflater.inflate(R.layout.fragment_episodes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getLocations()
+        viewModel.getEpisodes()
     }
 
     private fun initDagger() {
-        DaggerLocationsFragmentComponent.builder()
+        DaggerEpisodesFragmentComponent.builder()
             .applicationComponent((activity?.application as RickMortyApplication).applicationComponent)
-            .locationsViewModelModule(LocationsViewModelModule(this))
+            .episodesViewModelModule(EpisodesViewModelModule(this))
             .build()
             .inject(this)
     }
 
     private fun initObservableData() {
         viewModel.apply {
-            locationList.observe(this@LocationsFragment, Observer {
-                rv_locations_frag.apply {
-                    adapter = LocationsAdapter(it)
-                    layoutManager = LinearLayoutManager(this@LocationsFragment.requireContext())
+            episodeList.observe(this@EpisodesFragment, Observer {
+                rv_episodes_frag.apply {
+                    adapter = EpisodesAdapter(it)
+                    layoutManager = LinearLayoutManager(this@EpisodesFragment.requireContext())
                 }
             })
 
-            errorMessage.observe(this@LocationsFragment, Observer {
+            errorMessage.observe(this@EpisodesFragment, Observer {
                 showError(it)
             })
         }

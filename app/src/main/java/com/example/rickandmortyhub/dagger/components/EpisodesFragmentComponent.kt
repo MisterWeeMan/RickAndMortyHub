@@ -2,7 +2,7 @@ package com.example.rickandmortyhub.dagger.components
 
 import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule
 import com.example.rickandmortyhub.dagger.scopes.EpisodesFragmentScope
-import com.example.rickandmortyhub.mvvm.view.episode.EpisodesFragment
+import com.example.rickandmortyhub.views.episode.EpisodesFragment
 import dagger.Component
 
 @EpisodesFragmentScope

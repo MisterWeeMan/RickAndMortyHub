@@ -1,11 +1,12 @@
-package com.example.rickandmortyhub
+package com.example.rickandmortyhub.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.rickandmortyhub.mvvm.view.character.CharactersFragment
-import com.example.rickandmortyhub.mvvm.view.episode.EpisodesFragment
-import com.example.rickandmortyhub.mvvm.view.location.LocationsFragment
+import com.example.rickandmortyhub.R
+import com.example.rickandmortyhub.views.character.CharactersFragment
+import com.example.rickandmortyhub.views.episode.EpisodesFragment
+import com.example.rickandmortyhub.views.location.LocationsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

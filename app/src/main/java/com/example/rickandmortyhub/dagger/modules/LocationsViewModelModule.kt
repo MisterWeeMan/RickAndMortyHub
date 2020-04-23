@@ -2,9 +2,9 @@ package com.example.rickandmortyhub.dagger.modules
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.rickandmortyhub.dagger.scopes.LocationsFragmentScope
-import com.example.rickandmortyhub.mvvm.view.location.LocationsFragment
-import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModel
-import com.example.rickandmortyhub.mvvm.viewmodel.location.LocationsViewModelFactory
+import com.example.rickandmortyhub.views.location.LocationsFragment
+import com.example.rickandmortyhub.viewmodels.location.LocationsViewModel
+import com.example.rickandmortyhub.viewmodels.location.LocationsViewModelFactory
 import dagger.Module
 import dagger.Provides
 

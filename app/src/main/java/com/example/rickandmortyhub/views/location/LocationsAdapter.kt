@@ -1,4 +1,4 @@
-package com.example.rickandmortyhub.mvvm.view.location
+package com.example.rickandmortyhub.views.location
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,15 +1,15 @@
-package com.example.rickandmortyhub.mvvm.viewmodel.episode
+package com.example.rickandmortyhub.viewmodels.episode
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.common.network.model.episode.Episode
-import com.example.rickandmortyhub.repositories.RickMortyRemoteRepository
+import com.example.rickandmortyhub.repositories.RemoteRepository
 import kotlinx.coroutines.launch
 
 class EpisodesViewModel(
-    private val repository: RickMortyRemoteRepository
+    private val repository: RemoteRepository
 ): ViewModel() {
 
     val episodeList: LiveData<List<Episode>>

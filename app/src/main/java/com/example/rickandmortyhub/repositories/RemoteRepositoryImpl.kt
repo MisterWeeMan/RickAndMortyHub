@@ -6,9 +6,9 @@ import com.example.rickandmortyhub.common.network.model.episode.Episode
 import com.example.rickandmortyhub.common.network.model.location.Location
 import javax.inject.Inject
 
-class RickMortyRemoteRepositoryImpl @Inject constructor(
+class RemoteRepositoryImpl @Inject constructor(
     private val rickMortyClient: RickMortyClient
-): RickMortyRemoteRepository {
+): RemoteRepository {
 
     override suspend fun downloadCharacters(): List<Character> {
         return rickMortyClient

@@ -2,7 +2,7 @@ package com.example.rickandmortyhub.dagger.components
 
 import com.example.rickandmortyhub.dagger.modules.CharactersViewModelModule
 import com.example.rickandmortyhub.dagger.scopes.CharactersFragmentScope
-import com.example.rickandmortyhub.mvvm.view.character.CharactersFragment
+import com.example.rickandmortyhub.views.character.CharactersFragment
 import dagger.Component
 
 @CharactersFragmentScope
