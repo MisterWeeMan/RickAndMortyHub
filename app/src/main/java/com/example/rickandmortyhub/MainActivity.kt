@@ -18,13 +18,11 @@ class MainActivity : AppCompatActivity() {
         initBottomNavigation()
     }
 
-    private fun navigate(fragment: Fragment): Boolean {
+    private fun navigate(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frag_container, fragment)
             .commit()
-
-        return true
     }
 
     private fun initBottomNavigation() {
@@ -33,8 +31,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_characters -> navigate(CharactersFragment())
                 R.id.nav_locations -> navigate(LocationsFragment())
                 R.id.nav_episodes -> navigate(EpisodesFragment())
-                else -> false
             }
+
+            true
         }
     }
 }
