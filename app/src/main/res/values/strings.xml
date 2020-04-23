@@ -13,4 +13,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="general_error_message">Something went wrong!</string>
+    <string name="error">Error</string>
+    <string name="reload">Reload</string>
 </resources>

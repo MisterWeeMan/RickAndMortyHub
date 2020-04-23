@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.RickMortyApplication
+import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.dagger.components.DaggerEpisodesFragmentComponent
 import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule
 import com.example.rickandmortyhub.viewmodels.episode.EpisodesViewModel
@@ -35,6 +37,10 @@ class EpisodesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initData()
+    }
+
+    private fun initData() {
         viewModel.getEpisodes()
     }
 
@@ -48,24 +54,58 @@ class EpisodesFragment: Fragment() {
 
     private fun initObservableData() {
         viewModel.apply {
-            episodeList.observe(this@EpisodesFragment, Observer {
-                rv_episodes_frag.apply {
-                    adapter = EpisodesAdapter(it)
-                    layoutManager = LinearLayoutManager(this@EpisodesFragment.requireContext())
-                }
-            })
+            dataState.observe(this@EpisodesFragment, Observer { state ->
+                when (state) {
+                    is DataState.Loading -> {
+                        hideEpisodeList()
+                        showLoading()
+                    }
+                    is DataState.Success<*> -> {
+                        val episodesList = (state.data as List<*>).filterIsInstance<Episode>()
 
-            errorMessage.observe(this@EpisodesFragment, Observer {
-                showError(it)
+                        hideLoading()
+                        setupRecyclerView(episodesList)
+                        showEpisodeList()
+                    }
+                    is DataState.Failure -> {
+                        showError(state.message)
+                    }
+                }
             })
         }
     }
 
-    private fun showError(error: String) {
+    private fun setupRecyclerView(episodesList: List<Episode>) {
+        rv_episodes.apply {
+            adapter = EpisodesAdapter(episodesList)
+            layoutManager = LinearLayoutManager(this@EpisodesFragment.requireContext())
+        }
+    }
+
+    private fun showError(error: String?) {
+        val message = error ?: getString(R.string.general_error_message)
+
         AlertDialog.Builder(this.requireContext())
             .setCancelable(false)
-            .setMessage(error)
-            .setPositiveButton(getString(R.string.ok), null)
+            .setTitle(getString(R.string.error))
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.reload)) { _, _ -> initData() }
             .show()
+    }
+
+    private fun showLoading() {
+        pb_loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        pb_loading.visibility = View.GONE
+    }
+
+    private fun showEpisodeList() {
+        rv_episodes.visibility = View.VISIBLE
+    }
+
+    private fun hideEpisodeList() {
+        rv_episodes.visibility = View.GONE
     }
 }

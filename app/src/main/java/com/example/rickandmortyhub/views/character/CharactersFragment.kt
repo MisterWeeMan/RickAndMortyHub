@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.RickMortyApplication
+import com.example.rickandmortyhub.common.network.model.character.Character
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.dagger.components.DaggerCharactersFragmentComponent
 import com.example.rickandmortyhub.dagger.modules.CharactersViewModelModule
 import com.example.rickandmortyhub.viewmodels.character.CharactersViewModel
@@ -53,24 +55,58 @@ class CharactersFragment : Fragment() {
 
     private fun initObservableData() {
         viewModel.apply {
-            characterList.observe(this@CharactersFragment, Observer {
-                rv_characters_frag.apply {
-                    adapter = CharactersAdapter(it)
-                    layoutManager = LinearLayoutManager(this@CharactersFragment.requireContext())
-                }
-            })
+            dataState.observe(this@CharactersFragment, Observer { state ->
+                when (state) {
+                    is DataState.Loading -> {
+                        hideCharacterList()
+                        showLoading()
+                    }
+                    is DataState.Success<*> -> {
+                        val characterList = (state.data as List<*>).filterIsInstance<Character>()
 
-            errorMessage.observe(this@CharactersFragment, Observer {
-                showError(it)
+                        hideLoading()
+                        setupRecyclerView(characterList)
+                        showCharacterList()
+                    }
+                    is DataState.Failure -> {
+                        showError(state.message)
+                    }
+                }
             })
         }
     }
 
-    private fun showError(error: String) {
+    private fun setupRecyclerView(characterList: List<Character>) {
+        rv_characters.apply {
+            adapter = CharactersAdapter(characterList)
+            layoutManager = LinearLayoutManager(this@CharactersFragment.requireContext())
+        }
+    }
+
+    private fun showError(error: String?) {
+        val message = error ?: getString(R.string.general_error_message)
+
         AlertDialog.Builder(this.requireContext())
             .setCancelable(false)
-            .setMessage(error)
-            .setPositiveButton(getString(R.string.ok), null)
+            .setTitle(getString(R.string.error))
+            .setMessage(message)
+            .setNeutralButton(getString(R.string.reload)) { _, _ -> initData() }
             .show()
+    }
+
+    private fun showLoading() {
+        pb_loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        pb_loading.visibility = View.GONE
+    }
+
+    private fun showCharacterList() {
+        rv_characters.visibility = View.VISIBLE
+    }
+
+    private fun hideCharacterList() {
+        rv_characters.visibility = View.GONE
     }
 }

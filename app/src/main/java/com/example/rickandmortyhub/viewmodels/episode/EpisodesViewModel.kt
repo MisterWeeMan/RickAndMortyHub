@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.repositories.RemoteRepository
 import kotlinx.coroutines.launch
 
@@ -12,20 +13,19 @@ class EpisodesViewModel(
     private val repository: RemoteRepository
 ): ViewModel() {
 
-    val episodeList: LiveData<List<Episode>>
-        get() = mEpisodeList
-    private val mEpisodeList = MutableLiveData<List<Episode>>()
-
-    val errorMessage: LiveData<String>
-        get() = mErrorMessage
-    private val mErrorMessage = MutableLiveData<String>()
+    private val mDataState = MutableLiveData<DataState>()
+    val dataState: LiveData<DataState> = mDataState
 
     fun getEpisodes() {
+        mDataState.value = DataState.Loading
+
         viewModelScope.launch {
             try {
-                mEpisodeList.value = repository.downloadEpisodes()
+                val episodes = repository.downloadEpisodes()
+
+                mDataState.value = DataState.Success(episodes)
             } catch (exc: Exception) {
-                mErrorMessage.value = exc.message
+                mDataState.value = DataState.Failure(exc.message)
             }
         }
     }
