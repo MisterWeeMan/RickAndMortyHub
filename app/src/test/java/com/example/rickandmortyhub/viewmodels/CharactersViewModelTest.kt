@@ -2,19 +2,15 @@ package com.example.rickandmortyhub.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
 import com.example.rickandmortyhub.common.network.model.character.Character
-import com.example.rickandmortyhub.viewmodels.character.CharactersViewModel
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.repositories.RemoteRepository
-import com.example.rickandmortyhub.viewmodels.utils.characterMock
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import com.example.rickandmortyhub.viewmodels.character.CharactersViewModel
+import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -33,10 +29,7 @@ class CharactersViewModelTest {
     private lateinit var repository: RemoteRepository
 
     @SpyK
-    var characterListObserver = Observer<List<Character>> {  }
-
-    @SpyK
-    var errorMessageObserver = Observer<String> {  }
+    var dataStateObserver = Observer<DataState> {  }
 
     private lateinit var viewModel: CharactersViewModel
 
@@ -46,49 +39,59 @@ class CharactersViewModelTest {
 
         viewModel = CharactersViewModel(repository)
 
-        viewModel.apply {
-            characterList.observeForever(characterListObserver)
-            errorMessage.observeForever(errorMessageObserver)
-        }
-    }
-
-    @Test
-    fun `getCharacters successful call correctly change the value of character list`() {
-        // Given
-        val characterList = (1..10).map { characterMock.copy(id = it) }
-        coEvery { repository.downloadCharacters() } returns characterList
-
-        // When
-        runBlocking { viewModel.getCharacters() }
-
-        // Then
-        assertEquals(characterList, viewModel.characterList.value)
-        verify { characterListObserver.onChanged(characterList) }
-    }
-
-    @Test
-    fun `getCharacters unsuccessful call correctly change the value of error message`() {
-        // Given
-        val error = "error"
-        coEvery { repository.downloadCharacters() } throws RuntimeException(error)
-
-        // When
-        runBlocking { viewModel.getCharacters() }
-
-        // Then
-        assertEquals(error, viewModel.errorMessage.value)
-        verify { errorMessageObserver.onChanged(error) }
+        viewModel.dataState.observeForever(dataStateObserver)
     }
 
     @Test
     fun `getCharacters successful call correctly call downloadCharacters repository method`() {
-        // Given
+        // === Setup ===
+        coEvery { repository.downloadCharacters() } returns mockk()
+
+        // === Call ===
+        viewModel.getCharacters()
+
+        // === Assertions ===
+        coVerify { repository.downloadCharacters() }
+    }
+
+    @Test
+    fun `getCharacters call correctly change the value of data state to loading`() {
+        // === Setup ===
+        coEvery { repository.downloadCharacters() } returns mockk()
+
+        // === Call ===
+        viewModel.getCharacters()
+
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(DataState.Loading) }
+    }
+
+    @Test
+    fun `getCharacters successful call correctly change the value of data state to success`() {
+        // === Setup ===
+        val expectedResult = DataState.Success(listOf<Character>())
         coEvery { repository.downloadCharacters() } returns listOf()
 
-        // When
-        runBlocking { viewModel.getCharacters() }
+        // === Call ===
+        viewModel.getCharacters()
 
-        // Then
-        coVerify { repository.downloadCharacters() }
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(expectedResult) }
+        assertEquals(expectedResult, viewModel.dataState.value)
+    }
+
+    @Test
+    fun `getCharacters unsuccessful call correctly change the value of data state to failure`() {
+        // === Setup ===
+        val error = "error"
+        val expectedResult = DataState.Failure(error)
+        coEvery { repository.downloadCharacters() } throws Exception(error)
+
+        // === Call ===
+        viewModel.getCharacters()
+
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(expectedResult) }
+        assertEquals(expectedResult, viewModel.dataState.value)
     }
 }

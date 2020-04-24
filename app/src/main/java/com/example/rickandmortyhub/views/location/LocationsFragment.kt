@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.RickMortyApplication
+import com.example.rickandmortyhub.common.network.model.location.Location
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.dagger.components.DaggerLocationsFragmentComponent
 import com.example.rickandmortyhub.dagger.modules.LocationsViewModelModule
 import com.example.rickandmortyhub.viewmodels.location.LocationsViewModel
@@ -35,6 +37,10 @@ class LocationsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initData()
+    }
+
+    private fun initData() {
         viewModel.getLocations()
     }
 
@@ -48,24 +54,59 @@ class LocationsFragment: Fragment() {
 
     private fun initObservableData() {
         viewModel.apply {
-            locationList.observe(this@LocationsFragment, Observer {
-                rv_locations_frag.apply {
-                    adapter = LocationsAdapter(it)
-                    layoutManager = LinearLayoutManager(this@LocationsFragment.requireContext())
-                }
-            })
+            dataState.observe(this@LocationsFragment, Observer { state ->
+                when (state) {
+                    is DataState.Loading -> {
+                        hideLocationsList()
+                        showLoading()
+                    }
+                    is DataState.Success<*> -> {
+                        val locationList = (state.data as List<*>).filterIsInstance<Location>()
 
-            errorMessage.observe(this@LocationsFragment, Observer {
-                showError(it)
+                        hideLoading()
+                        setupRecyclerView(locationList)
+                        showLocationsList()
+                    }
+                    is DataState.Failure -> {
+                        showError(state.message)
+                    }
+                }
+
             })
         }
     }
 
-    private fun showError(error: String) {
+    private fun setupRecyclerView(locationList: List<Location>) {
+        rv_locations.apply {
+            adapter = LocationsAdapter(locationList)
+            layoutManager = LinearLayoutManager(this@LocationsFragment.requireContext())
+        }
+    }
+
+    private fun showError(error: String?) {
+        val message = error ?: getString(R.string.general_error_message)
+
         AlertDialog.Builder(this.requireContext())
             .setCancelable(false)
-            .setMessage(error)
-            .setPositiveButton(getString(R.string.ok), null)
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.reload)) { _, _ -> initData() }
             .show()
+    }
+
+    private fun showLoading() {
+        pb_loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        pb_loading.visibility = View.GONE
+    }
+
+    private fun showLocationsList() {
+        rv_locations.visibility = View.VISIBLE
+    }
+
+    private fun hideLocationsList() {
+        rv_locations.visibility = View.GONE
     }
 }

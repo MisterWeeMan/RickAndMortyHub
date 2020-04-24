@@ -3,18 +3,14 @@ package com.example.rickandmortyhub.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.rickandmortyhub.common.network.model.location.Location
-import com.example.rickandmortyhub.viewmodels.location.LocationsViewModel
+import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.repositories.RemoteRepository
+import com.example.rickandmortyhub.viewmodels.location.LocationsViewModel
 import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
-import com.example.rickandmortyhub.viewmodels.utils.locationMock
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -33,10 +29,7 @@ class LocationsViewModelTest {
     private lateinit var repository: RemoteRepository
 
     @SpyK
-    var locationListObserver = Observer<List<Location>> {  }
-
-    @SpyK
-    var errorMessageObserver = Observer<String> {  }
+    var dataStateObserver = Observer<DataState> {  }
 
     private lateinit var viewModel: LocationsViewModel
 
@@ -46,49 +39,59 @@ class LocationsViewModelTest {
 
         viewModel = LocationsViewModel(repository)
 
-        viewModel.apply {
-            locationList.observeForever(locationListObserver)
-            errorMessage.observeForever(errorMessageObserver)
-        }
-    }
-
-    @Test
-    fun `getLocations successful call correctly change the value of location list`() {
-        // Given
-        val locationList = (1..10).map { locationMock.copy(id = it) }
-        coEvery { repository.downloadLocations() } returns locationList
-
-        // When
-        runBlocking { viewModel.getLocations() }
-
-        // Then
-        assertEquals(locationList, viewModel.locationList.value)
-        verify { locationListObserver.onChanged(locationList) }
-    }
-
-    @Test
-    fun `getLocations unsuccessful call correctly change the value of error message`() {
-        // Given
-        val error = "error"
-        coEvery { repository.downloadLocations() } throws RuntimeException(error)
-
-        // When
-        runBlocking { viewModel.getLocations() }
-
-        // Then
-        assertEquals(error, viewModel.errorMessage.value)
-        verify { errorMessageObserver.onChanged(error) }
+        viewModel.dataState.observeForever(dataStateObserver)
     }
 
     @Test
     fun `getLocations successful call correctly call downloadLocations repository method`() {
-        // Given
+        // === Setup ===
+        coEvery { repository.downloadLocations() } returns mockk()
+
+        // === Call ===
+        viewModel.getLocations()
+
+        // === Assertions ===
+        coVerify { repository.downloadLocations() }
+    }
+
+    @Test
+    fun `getLocations call correctly change the value of data state to loading`() {
+        // === Setup ===
+        coEvery { repository.downloadLocations() } returns mockk()
+
+        // === Call ===
+        viewModel.getLocations()
+
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(DataState.Loading) }
+    }
+
+    @Test
+    fun `getLocations successful call correctly change the value of data state to success`() {
+        // === Setup ===
+        val expectedResult = DataState.Success(listOf<Location>())
         coEvery { repository.downloadLocations() } returns listOf()
 
-        // When
-        runBlocking { viewModel.getLocations() }
+        // === Call ===
+        viewModel.getLocations()
 
-        // Then
-        coVerify { repository.downloadLocations() }
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(expectedResult) }
+        assertEquals(expectedResult, viewModel.dataState.value)
+    }
+
+    @Test
+    fun `getLocations unsuccessful call correctly change the value of data state to failure`() {
+        // === Setup ===
+        val error = "error"
+        val expectedResult = DataState.Failure(error)
+        coEvery { repository.downloadLocations() } throws Exception(error)
+
+        // === Call ===
+        viewModel.getLocations()
+
+        // === Assertions ===
+        verify { dataStateObserver.onChanged(expectedResult) }
+        assertEquals(expectedResult, viewModel.dataState.value)
     }
 }
