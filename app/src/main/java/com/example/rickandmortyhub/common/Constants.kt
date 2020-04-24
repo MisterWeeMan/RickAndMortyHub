@@ -8,3 +8,5 @@ const val LOCATION_ENDPOINT = "location"
 const val SINGLE_LOCATION_ENDPOINT = "location/{locationId}"
 const val EPISODE_ENDPOINT = "episode"
 const val SINGLE_EPISODE_ENDPOINT = "episode/{episodeId}"
+
+const val DATABASE_NAME = "RickMortyDatabase"
