@@ -1,6 +1,7 @@
 package com.example.rickandmortyhub.common.database.utils
 
 import androidx.room.TypeConverter
+import com.example.rickandmortyhub.common.utils.fromJson
 import com.google.gson.Gson
 
 object RoomConverters {

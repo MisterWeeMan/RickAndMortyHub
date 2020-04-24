@@ -1,4 +1,4 @@
-package com.example.rickandmortyhub.viewmodels.utils
+package com.example.rickandmortyhub.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

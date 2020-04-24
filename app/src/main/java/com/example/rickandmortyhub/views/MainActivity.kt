@@ -1,7 +1,7 @@
 package com.example.rickandmortyhub.views
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.views.character.CharactersFragment

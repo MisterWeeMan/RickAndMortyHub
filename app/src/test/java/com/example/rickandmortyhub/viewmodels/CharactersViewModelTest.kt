@@ -6,7 +6,7 @@ import com.example.rickandmortyhub.common.network.model.character.Character
 import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.repositories.RemoteRepository
 import com.example.rickandmortyhub.viewmodels.character.CharactersViewModel
-import com.example.rickandmortyhub.viewmodels.utils.MainCoroutinesRule
+import com.example.rickandmortyhub.utils.MainCoroutinesRule
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK

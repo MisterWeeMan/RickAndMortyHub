@@ -1,5 +1,6 @@
-package com.example.rickandmortyhub.viewmodels.utils
+package com.example.rickandmortyhub.utils
 
+import com.example.rickandmortyhub.common.database.model.CharacterDb
 import com.example.rickandmortyhub.common.network.model.character.Character
 import com.example.rickandmortyhub.common.network.model.character.CharacterLocation
 import com.example.rickandmortyhub.common.network.model.character.Origin
@@ -21,6 +22,28 @@ val characterMock = Character(
         name = "Earth",
         url = "https://rickandmortyapi.com/api/location/20"
     ),
+    image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+    episode = listOf(
+        "https://rickandmortyapi.com/api/episode/1",
+        "https://rickandmortyapi.com/api/episode/2",
+        "https://rickandmortyapi.com/api/episode/3",
+        "https://rickandmortyapi.com/api/episode/4"
+    ),
+    url = "https://rickandmortyapi.com/api/character/1",
+    created = "2017-11-04T18:48:46.250Z"
+)
+
+val characterDbMock = CharacterDb(
+    id = 1,
+    name = "Rick Sanchez",
+    status = "Alive",
+    species = "Human",
+    type = "",
+    gender = "Male",
+    nameOriginLocation = "Earth",
+    urlOriginLocation = "https://rickandmortyapi.com/api/location/1",
+    nameLocation = "Earth",
+    urlLocation = "https://rickandmortyapi.com/api/location/20",
     image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
     episode = listOf(
         "https://rickandmortyapi.com/api/episode/1",
