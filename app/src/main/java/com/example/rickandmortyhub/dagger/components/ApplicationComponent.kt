@@ -1,5 +1,7 @@
 package com.example.rickandmortyhub.dagger.components
 
+import android.app.Application
+import com.example.rickandmortyhub.RickMortyApplication
 import com.example.rickandmortyhub.common.database.RickMortyDao
 import com.example.rickandmortyhub.common.network.RickMortyClient
 import com.example.rickandmortyhub.dagger.modules.DatabaseModule
@@ -18,4 +20,6 @@ interface ApplicationComponent {
     fun getRickMortyDao(): RickMortyDao
 
     fun getRickMortyRemoteRepository(): RemoteRepository
+
+    fun inject(application: RickMortyApplication)
 }

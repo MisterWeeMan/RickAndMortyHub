@@ -10,3 +10,9 @@ const val EPISODE_ENDPOINT = "episode"
 const val SINGLE_EPISODE_ENDPOINT = "episode/{episodeId}"
 
 const val DATABASE_NAME = "RickMortyDatabase"
+
+const val EXPIRING_DATA_PREFERENCES = "expiring_data_preferences"
+
+const val LAST_DOWNLOAD_KEY = "last_download"
+
+const val EXPIRING_DOWNLOAD_MILLIS: Long = 172_800_000L // 48 hours
