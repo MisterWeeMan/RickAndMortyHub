@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyhub.R
-import com.example.rickandmortyhub.common.network.model.location.Location
+import com.example.rickandmortyhub.common.model.Location
 import kotlinx.android.synthetic.main.item_location.view.*
 
 class LocationsAdapter(

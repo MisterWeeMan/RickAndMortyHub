@@ -3,8 +3,8 @@ package com.example.rickandmortyhub.repositories
 import com.example.rickandmortyhub.common.database.RickMortyDao
 import com.example.rickandmortyhub.common.network.RickMortyClient
 import com.example.rickandmortyhub.common.network.model.character.Character
-import com.example.rickandmortyhub.common.network.model.episode.Episode
-import com.example.rickandmortyhub.common.network.model.location.Location
+import com.example.rickandmortyhub.common.model.Episode
+import com.example.rickandmortyhub.common.model.Location
 import com.example.rickandmortyhub.common.utils.converters.CharactersConverter
 import com.example.rickandmortyhub.common.utils.isNotNullAndNotEmpty
 import javax.inject.Inject
@@ -13,12 +13,12 @@ class RemoteRepositoryImpl @Inject constructor(
     private val rickMortyClient: RickMortyClient,
     private val rickMortyDao: RickMortyDao,
     private val converters: CharactersConverter
-): RemoteRepository {
+) : RemoteRepository {
 
     override suspend fun downloadCharacters(): List<Character> {
         var charactersDb = rickMortyDao.getCharacters()
 
-        if (charactersDb.isNotNullAndNotEmpty()){
+        if (charactersDb.isNotNullAndNotEmpty()) {
             return charactersDb.map { converters(it) }
         }
 
@@ -31,14 +31,30 @@ class RemoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun downloadLocations(): List<Location> {
-        return rickMortyClient
-            .getLocations()
-            .locations
+        val locationsDb = rickMortyDao.getLocations()
+
+        if (locationsDb.isNotNullAndNotEmpty()) {
+            return locationsDb
+        }
+
+        val locations = rickMortyClient.getLocations().locations
+
+        rickMortyDao.insertAllLocations(locations)
+
+        return locations
     }
 
     override suspend fun downloadEpisodes(): List<Episode> {
-        return rickMortyClient
-            .getEpisodes()
-            .episodes
+        val episodesDb = rickMortyDao.getEpisodes()
+
+        if (episodesDb.isNotNullAndNotEmpty()) {
+            return episodesDb
+        }
+
+        val episodes = rickMortyClient.getEpisodes().episodes
+
+        rickMortyDao.insertAllEpisodes(episodes)
+
+        return episodes
     }
 }

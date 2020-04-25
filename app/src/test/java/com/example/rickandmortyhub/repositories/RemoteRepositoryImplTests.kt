@@ -10,6 +10,8 @@ import com.example.rickandmortyhub.common.network.model.location.LocationsInfo
 import com.example.rickandmortyhub.common.utils.converters.CharactersConverter
 import com.example.rickandmortyhub.utils.characterDbMock
 import com.example.rickandmortyhub.utils.characterMock
+import com.example.rickandmortyhub.utils.episodeMock
+import com.example.rickandmortyhub.utils.locationMock
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -40,6 +42,7 @@ class RemoteRepositoryImplTests {
     fun `downloadCharacters call with empty dao list correctly calls every methods in order`() {
         // === Setup ===
         val fakeInfo = CharactersInfo(mockk(), listOf(characterMock))
+
         coEvery { dao.getCharacters() } returns listOf()
         coEvery { client.getCharacters() } returns fakeInfo
         coEvery { dao.insertAllCharacters(any()) } just runs
@@ -67,32 +70,71 @@ class RemoteRepositoryImplTests {
         runBlocking { repository.downloadCharacters() }
 
         // === Assertions ===
+        coVerify { dao.getCharacters() }
         verify { converter.invoke(characterDbMock) }
     }
 
     @Test
-    fun `downloadLocations call correctly calls client method`() {
+    fun `downloadLocations call with empty dao list correctly calls every methods in order`() {
         // === Setup ===
         val fakeInfo = LocationsInfo(mockk(), listOf())
+
+        coEvery { dao.getLocations() } returns listOf()
         coEvery { client.getLocations() } returns fakeInfo
+        coEvery { dao.insertAllLocations(any()) } just runs
 
         // === Call ===
         runBlocking { repository.downloadLocations() }
 
         // === Assertions ===
-        coVerify { client.getLocations() }
+        coVerifyOrder {
+            dao.getLocations()
+            client.getLocations()
+            dao.insertAllLocations(listOf())
+        }
     }
 
     @Test
-    fun `downloadEpisodes call correctly calls client method`() {
+    fun `downloadLocations call with non empty dao list calls dao get locations and return`() {
+        // === Setup ===
+        coEvery { dao.getLocations() } returns listOf(locationMock)
+
+        // === Call ===
+        runBlocking { repository.downloadLocations() }
+
+        // === Assertions ===
+        coVerify { dao.getLocations() }
+    }
+
+    @Test
+    fun `downloadEpisodes call with empty dao list correctly calls every methods in order`() {
         // === Setup ===
         val fakeInfo = EpisodesInfo(mockk(), listOf())
+
+        coEvery { dao.getEpisodes() } returns listOf()
         coEvery { client.getEpisodes() } returns fakeInfo
+        coEvery { dao.insertAllEpisodes(any()) } just runs
 
         // === Call ===
         runBlocking { repository.downloadEpisodes() }
 
         // === Assertions ===
-        coVerify { client.getEpisodes() }
+        coVerifyOrder {
+            dao.getEpisodes()
+            client.getEpisodes()
+            dao.insertAllEpisodes(listOf())
+        }
+    }
+
+    @Test
+    fun `downloadEpisodes call with non empty dao list calls dao get locations and return`() {
+        // === Setup ===
+        coEvery { dao.getEpisodes() } returns listOf(episodeMock)
+
+        // === Call ===
+        runBlocking { repository.downloadEpisodes() }
+
+        // === Assertions ===
+        coVerify { dao.getEpisodes() }
     }
 }

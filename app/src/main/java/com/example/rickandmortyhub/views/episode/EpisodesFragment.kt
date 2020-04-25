@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyhub.R
 import com.example.rickandmortyhub.RickMortyApplication
-import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.model.Episode
 import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.dagger.components.DaggerEpisodesFragmentComponent
 import com.example.rickandmortyhub.dagger.modules.EpisodesViewModelModule

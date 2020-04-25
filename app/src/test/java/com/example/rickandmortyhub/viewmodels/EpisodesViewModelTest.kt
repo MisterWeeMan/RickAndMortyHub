@@ -2,7 +2,7 @@ package com.example.rickandmortyhub.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.model.Episode
 import com.example.rickandmortyhub.common.utils.DataState
 import com.example.rickandmortyhub.repositories.RemoteRepository
 import com.example.rickandmortyhub.viewmodels.episode.EpisodesViewModel

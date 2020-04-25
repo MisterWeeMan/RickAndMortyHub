@@ -3,9 +3,9 @@ package com.example.rickandmortyhub.common.network
 import com.example.rickandmortyhub.common.*
 import com.example.rickandmortyhub.common.network.model.character.Character
 import com.example.rickandmortyhub.common.network.model.character.CharactersInfo
-import com.example.rickandmortyhub.common.network.model.episode.Episode
+import com.example.rickandmortyhub.common.model.Episode
 import com.example.rickandmortyhub.common.network.model.episode.EpisodesInfo
-import com.example.rickandmortyhub.common.network.model.location.Location
+import com.example.rickandmortyhub.common.model.Location
 import com.example.rickandmortyhub.common.network.model.location.LocationsInfo
 import retrofit2.http.GET
 import retrofit2.http.Path

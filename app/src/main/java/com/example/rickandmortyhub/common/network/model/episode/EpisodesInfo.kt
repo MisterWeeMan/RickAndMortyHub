@@ -1,6 +1,7 @@
 package com.example.rickandmortyhub.common.network.model.episode
 
 
+import com.example.rickandmortyhub.common.model.Episode
 import com.example.rickandmortyhub.common.network.model.Info
 import com.google.gson.annotations.SerializedName
 
