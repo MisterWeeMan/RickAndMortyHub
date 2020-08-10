@@ -56,12 +56,12 @@
             app:layout_constraintTop_toBottomOf="@id/tv_location_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_location_habitant_number"
+            app:layout_constraintBottom_toTopOf="@id/tv_location_characters_number"
 
             tools:text="Dimension C-137" />
 
         <TextView
-            android:id="@+id/tv_location_habitant_number"
+            android:id="@+id/tv_location_characters_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"

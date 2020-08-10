@@ -37,7 +37,7 @@ class LocationsAdapter(
                 tv_location_name.text = currentLocation.name
                 tv_location_type.text = currentLocation.type
                 tv_location_dimension.text = currentLocation.dimension
-                tv_location_habitant_number.text = currentLocation.residents.size.toString()
+                tv_location_characters_number.text = currentLocation.residents.size.toString()
             }
         }
     }

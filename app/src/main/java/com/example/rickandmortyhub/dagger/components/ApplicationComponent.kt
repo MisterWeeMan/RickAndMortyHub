@@ -1,6 +1,5 @@
 package com.example.rickandmortyhub.dagger.components
 
-import android.app.Application
 import com.example.rickandmortyhub.RickMortyApplication
 import com.example.rickandmortyhub.common.database.RickMortyDao
 import com.example.rickandmortyhub.common.network.RickMortyClient
